@@ -23,7 +23,8 @@ namespace ZTP_Project.UI
                 Console.WriteLine("2. Dodaj wydatek");
                 Console.WriteLine("3. Wyświetl wydatki");
                 Console.WriteLine("4. Eksportuj do CSV");
-                Console.WriteLine("5. Wyjście");
+                Console.WriteLine("5. Eksportuj do CSV z Data");
+                Console.WriteLine("6. Wyjście");
                 Console.Write("Wybierz opcję: ");
 
                 string wybor = Console.ReadLine();
@@ -42,6 +43,9 @@ namespace ZTP_Project.UI
                         EksportujDoCSV();
                         break;
                     case "5":
+                        EksportujDoCSVZData();
+                        break;
+                    case "6":
                         exit = true;
                         break;
                     default:
@@ -102,6 +106,22 @@ namespace ZTP_Project.UI
             Console.WriteLine(csv);
             Console.WriteLine("\n(Uwaga: W tej wersji CSV jest wyświetlane w konsoli. Zapisywanie do pliku można łatwo dodać.)");
             Console.WriteLine("Naciśnij Enter, aby kontynuować...");
+            Console.ReadLine();
+
+        }
+        private static void EksportujDoCSVZData()
+        {
+            var budzet = GlobalnyBudzet.GetInstance().Budzet;
+            var eksport = new EksportDoCSV();
+
+            // Dekorowanie eksportu do CSV, aby dodać datę
+            EksportBase eksportZData = new EksportZDataDecorator(eksport);
+
+            // Eksport z datą
+            string csv = eksportZData.Eksportuj(budzet.Wydatki);
+            Console.WriteLine("\n=== Eksport CSV z datą ===");
+            Console.WriteLine(csv);
+            Console.WriteLine("\n(Naciśnij Enter, aby kontynuować...)");
             Console.ReadLine();
         }
     }

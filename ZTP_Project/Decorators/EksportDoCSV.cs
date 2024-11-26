@@ -7,11 +7,39 @@ using ZTP_Project.Models;
 
 namespace ZTP_Project.Decorators
 {
-    public class EksportDoCSV
+    public class EksportDoCSV : EksportBase
     {
-        public string Eksportuj(List<Wydatek> wydatki)
+        public override string Eksportuj(List<Wydatek> wydatki)
         {
-            return string.Join("\n", wydatki.Select(w => $"{w.Nazwa},{w.Kwota},{w.Kategoria}"));
+            var csv = "Nazwa, Kwota, Kategoria\n";
+
+            foreach (var wydatek in wydatki)
+            {
+                csv += $"{wydatek.Nazwa}, {wydatek.Kwota}, {wydatek.Kategoria}\n";
+            }
+
+            return csv;
         }
     }
+
+    public class EksportZDataDecorator : EksportBase
+    {
+        private readonly EksportBase _eksportBase;
+
+        public EksportZDataDecorator(EksportBase eksportBase)
+        {
+            _eksportBase = eksportBase;
+        }
+
+        public override string Eksportuj(List<Wydatek> wydatki)
+        {
+            string wynik = _eksportBase.Eksportuj(wydatki);
+
+            string data = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            wynik = $"Data eksportu: {data}\n{wynik}";
+
+            return wynik;
+        }
+    }
+
 }
