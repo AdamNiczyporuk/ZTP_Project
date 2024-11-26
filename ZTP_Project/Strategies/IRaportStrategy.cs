@@ -8,7 +8,9 @@ using ZTP_Project.Models;
 namespace ZTP_Project.Strategies
 {
     public interface IRaportStrategy
-    { 
+
+    {
         string GenerujRaport(List<Wydatek> wydatki);
+
     }
 }

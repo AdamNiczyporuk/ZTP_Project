@@ -12,6 +12,7 @@ namespace ZTP_Project.Builder
         private string _nazwa;
         private decimal _kwota;
         private string _kategoria;
+        private DateTime _data;
 
         public WydatekBuilder SetNazwa(string nazwa)
         {
@@ -30,10 +31,17 @@ namespace ZTP_Project.Builder
             _kategoria = kategoria;
             return this;
         }
+        
+        public WydatekBuilder SetData(DateTime data)
+        {
+            _data = data;
+            return this;
+        }
 
         public Wydatek Build()
         {
-            return new Wydatek(_nazwa, _kwota, _kategoria);
+            return new Wydatek(_nazwa, _kwota, _kategoria,_data);
         }
+        
     }
 }

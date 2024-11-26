@@ -12,11 +12,14 @@ namespace ZTP_Project.Models
         public decimal Kwota { get; set; }
         public string Kategoria { get; set; }
 
-        public Wydatek(string nazwa, decimal kwota, string kategoria)
+        public DateTime Data { get; set; } 
+
+        public Wydatek(string nazwa, decimal kwota, string kategoria, DateTime data)
         {
             Nazwa = nazwa;
             Kwota = kwota;
             Kategoria = kategoria;
+            Data = data;
         }
     }
 }

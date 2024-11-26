@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ZTP_Project.Decorators;
 using ZTP_Project.FactoryMethod;
 using ZTP_Project.Singleton;
+using ZTP_Project.Strategies;
 
 namespace ZTP_Project.UI
 {
@@ -24,7 +25,8 @@ namespace ZTP_Project.UI
                 Console.WriteLine("3. Wyświetl wydatki");
                 Console.WriteLine("4. Eksportuj do CSV");
                 Console.WriteLine("5. Eksportuj do CSV z Data");
-                Console.WriteLine("6. Wyjście");
+                Console.WriteLine("6. Generuj Raport ");
+                Console.WriteLine("7. Wyjście");
                 Console.Write("Wybierz opcję: ");
 
                 string wybor = Console.ReadLine();
@@ -34,7 +36,7 @@ namespace ZTP_Project.UI
                         WyswietlSaldo();
                         break;
                     case "2":
-                        DodajWydatek();
+                        DodajWydatek(new WydatekFactory());
                         break;
                     case "3":
                         WyswietlWydatki();
@@ -46,6 +48,9 @@ namespace ZTP_Project.UI
                         EksportujDoCSVZData();
                         break;
                     case "6":
+                        GenerujRaport();
+                        break;
+                    case "7":
                         exit = true;
                         break;
                     default:
@@ -66,7 +71,7 @@ namespace ZTP_Project.UI
             Console.ReadLine();
         }
 
-        private static void DodajWydatek()
+        private static void DodajWydatek(IWydatekFactory factory)
         {
             Console.Write("\nPodaj nazwę wydatku: ");
             string nazwa = Console.ReadLine();
@@ -75,8 +80,8 @@ namespace ZTP_Project.UI
             Console.Write("Podaj kategorię wydatku: ");
             string kategoria = Console.ReadLine();
 
-            var wydatek = WydatekFactory.UtworzWydatek(nazwa, kwota, kategoria);
-            GlobalnyBudzet.GetInstance().Budzet.DodajWydatek(wydatek);
+            var budzet = GlobalnyBudzet.GetInstance().Budzet;
+            budzet.DodajWydatek(factory, nazwa, kwota, kategoria, DateTime.Now);
 
             Console.WriteLine("Wydatek dodany! Naciśnij Enter, aby kontynuować...");
             Console.ReadLine();
@@ -122,6 +127,29 @@ namespace ZTP_Project.UI
             Console.WriteLine("\n=== Eksport CSV z datą ===");
             Console.WriteLine(csv);
             Console.WriteLine("\n(Naciśnij Enter, aby kontynuować...)");
+            Console.ReadLine();
+        }
+        private static void GenerujRaport()
+        {
+
+            var budzet = GlobalnyBudzet.GetInstance().Budzet;
+
+            Console.WriteLine("Wybierz rodzaj raportu:");
+            Console.WriteLine("1. Miesięczny raport");
+            Console.Write("Wybierz opcję: ");
+            string wybor = Console.ReadLine();
+
+            IRaportStrategy raportStrategy = wybor switch
+            {
+                "1" => new MiesiecznyRaportStrategy(),
+                _ => throw new ArgumentException("Nieznany typ raportu")
+            };
+
+            string raport = budzet.GenerujRaport(raportStrategy);
+
+            Console.WriteLine("\n=== Raport ===");
+            Console.WriteLine(raport);
+            Console.WriteLine("\nNaciśnij Enter, aby kontynuować...");
             Console.ReadLine();
         }
     }

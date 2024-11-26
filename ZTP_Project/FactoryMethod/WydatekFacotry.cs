@@ -7,11 +7,15 @@ using ZTP_Project.Models;
 
 namespace ZTP_Project.FactoryMethod
 {
-    public static class WydatekFactory
+    public interface IWydatekFactory
     {
-        public static Wydatek UtworzWydatek(string nazwa, decimal kwota, string kategoria)
+        Wydatek UtworzWydatek(string nazwa, decimal kwota, string kategoria, DateTime dateTime);
+    }
+    public class WydatekFactory : IWydatekFactory
+    {
+        public Wydatek UtworzWydatek(string nazwa, decimal kwota, string kategoria, DateTime dateTime)
         {
-            return new Wydatek(nazwa, kwota, kategoria);
+            return new Wydatek(nazwa, kwota, kategoria, dateTime);
         }
     }
 }
