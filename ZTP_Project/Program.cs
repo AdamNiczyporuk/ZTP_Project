@@ -1,68 +1,27 @@
-﻿public class ManagerBudzetu
+﻿using ZTP_Project.FactoryMethod;
+using ZTP_Project.Observers;
+using ZTP_Project.Singleton;
+
+class Program
 {
-    private static ManagerBudzetu instance;
-    private List<Wydatki> wydatki;
-    private List<Przychody> przychody;
-
-    private ManagerBudzetu()
+    static void Main(string[] args)
     {
-        wydatki = new List<Wydatki>();
-        przychody = new List<Przychody>();
-    }
+        var budzet = GlobalnyBudzet.GetInstance().Budzet;
+        var powiadomienie = new LimitPowiadomienie();
 
-    public static ManagerBudzetu Instance
-    {
-        get
-        {
-            if (instance == null)
-                instance = new ManagerBudzetu();
-            return instance;
-        }
-    }
+        budzet.Przychody = 5000;
+        budzet.Limit = 4000;
 
-    public void DodajWydatki(Wydatki wydatki)
-    {
-        this.wydatki.Add(wydatki);
-    }
+        // Dodanie wydatków
+        var wydatek1 = WydatekFactory.UtworzWydatek("Jedzenie", 1000, "Jedzenie");
+        var wydatek2 = WydatekFactory.UtworzWydatek("Transport", 500, "Transport");
 
-    public void DodajPrzychody(Przychody przychody)
-    {
-        this.przychody.Add(przychody);
-    }
+        budzet.DodajWydatek(wydatek1);
+        budzet.DodajWydatek(wydatek2);
 
-    public List<Wydatki> GetWydatki()
-    {
-        return this.wydatki;
-    }
+        if (budzet.Limit < budzet.Wydatki.Sum(x => x.Kwota))
+            powiadomienie.Powiadom("Przekroczono limit!");
 
-    public List<Przychody> GetPrzychody()
-    {
-        return this.przychody;
-    }
-}
-
-public class Wydatki
-{
-    public string Nazwa { get; set; }
-    public double Kwota { get; set; }
-    public string Kategoria { get; set; }
-
-    public Wydatki(string nazwa, double kwota, string kategoria)
-    {
-        Nazwa = nazwa;
-        Kwota = kwota;
-        Kategoria = kategoria;
-    }
-}
-
-public class Przychody
-{
-    public string Nazwa { get; set; }
-    public double Kwota { get; set; }
-
-    public Przychody(string nazwa, double kwota)
-    {
-        Nazwa = nazwa;
-        Kwota = kwota;
+        Console.WriteLine("Budżet gotowy!");
     }
 }

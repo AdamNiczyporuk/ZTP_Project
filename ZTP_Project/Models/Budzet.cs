@@ -16,5 +16,10 @@ namespace ZTP_Project.Models
         {
             Wydatki.Add(wydatek);
         }
+
+        public decimal ObliczSaldo()
+        {
+            return Przychody - Wydatki.Sum(x => x.Kwota);
+        }
     }
 }
