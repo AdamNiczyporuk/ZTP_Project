@@ -11,8 +11,7 @@ namespace ZTP_Project.Strategies
     {
         public string GenerujRaport(List<Wydatek> wydatki)
         {
-            // Implementacja raportu miesięcznego
-            return "Raport miesięczny: ...";
+            return "Raport miesięczny: " + string.Join(", ", wydatki.Select(w => w.Nazwa));
         }
     }
 }

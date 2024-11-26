@@ -10,7 +10,6 @@ namespace ZTP_Project.Singleton
     public sealed class GlobalnyBudzet
     {
         private static GlobalnyBudzet _instance;
-
         public Budzet Budzet { get; private set; }
 
         private GlobalnyBudzet()

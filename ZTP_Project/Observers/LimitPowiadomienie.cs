@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace ZTP_Project.Observers
 {
-    public class LimitPowiadomienie : IObserver
+    public class LimitPowiadomienie
     {
-        public void Powiadom(string wiadomosc)
+        public void Powiadom(decimal suma, decimal limit)
         {
-            Console.WriteLine($"[POWIADOMIENIE]: {wiadomosc}");
+            if (suma > limit)
+            {
+                Console.WriteLine($"Uwaga! Przekroczono limit: {limit}");
+            }
         }
     }
 }
