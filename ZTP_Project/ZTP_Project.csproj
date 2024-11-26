@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="Decorators\" />
-    <Folder Include="Observers\" />
   </ItemGroup>
 
 </Project>
