@@ -13,9 +13,10 @@ class Program
         var budzet = GlobalnyBudzet.GetInstance().Budzet;
         budzet.Przychody = 5000;
         budzet.Limit = 4000;
-       
+        
 
-        // Uruchomienie menu
+
+        // Uruchomienie menu abc
         Menu.Start();
     }
 }
