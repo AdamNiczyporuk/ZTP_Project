@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="Decorator\" />
-    <Folder Include="TemplateMethod\" />
     <Folder Include="Strategy\" />
   </ItemGroup>
 
