@@ -13,11 +13,11 @@ namespace ZTP_Project.Models.Singleton
 
         private List<Transaction> Transactions { get; set; }
 
-        private Dictionary<string, double> MonthlyExpenseLimit { get; set; }
+        private Dictionary<string, double> MonthlyExpenseLimit { get; set; } //kategoria, limit
 
         private List<SavingsGoal> SavingsGoals { get; set; }
 
-        public HomeBudget GetInstance()
+        public static HomeBudget GetInstance()
         {
             if (_instance == null)
             {
@@ -53,7 +53,7 @@ namespace ZTP_Project.Models.Singleton
             SavingsGoals.Remove(savingsGoal);
         }
 
-        public void SetMonthlyExpenseLimit(string category, double limit) /// TU pewnie ci chodziło o takie coś Na wykresie jest tylko  limit
+        public void SetMonthlyExpenseLimit(string category, double limit) 
         {
             MonthlyExpenseLimit[category] = limit;
         }
