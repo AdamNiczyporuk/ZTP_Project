@@ -16,8 +16,9 @@ namespace ZTP_Project.Views
             var option = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title("Choose [green]option[/]?")
                 .PageSize(10)
-                .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
-                .AddChoices(new[] {"Add Expense", "Add Income","Manage Limits", "Manage Savings Goals", "Generate Report", "Check Expense Prognosis", "Export Data"}));
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .AddChoices(new[] {"Add Expense", "Add Income","Manage Limits", "Manage Savings Goals", "Generate Report", "Check Expense Prognosis", "Export Data",
+                "Exit"}));
             return option;
         }
         private void DisplayHomeBudgetWriting()
