@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZTP_Project.Singleton;
+using ZTP_Project.Models.Singleton;
 using ZTP_Project.Strategy;
 using ZTP_Project.Views;
 
