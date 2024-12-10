@@ -39,34 +39,118 @@ namespace ZTP_Project.Controllers
         }
         public void StartMainMenu()
         {
-            string option = mainView.DisplayMainMenu();
-            switch (option)
+            bool exit = false;
+            while (!exit)
             {
-                case "Add Expense":
-                    // Add logic for adding expense
-                    break;
-                case "Add Income":
-                    // Add logic for adding income
-                    break;
-                case "Manage Limits":
-                    // Add logic for managing limits
-                    break;
-                case "Manage Savings Goals":
-                    // Add logic for managing savings goals
-                    break;
-                case "Generate Report":
-                    // Add logic for generating report
-                    break;
-                case "Check Expense Prognosis":
-                    // Add logic for checking expense prognosis
-                    break;
-                case "Export Data":
-                    // Add logic for exporting data
-                    break;
-                case "Exit":
-                    Environment.Exit(0);
-                    break;
+                string option = mainView.DisplayMainMenu();
+                switch (option)
+                {
+                    case "Add Expense":
+                        AddExpense();
+                        break;
+                    case "Add Income":
+                        AddIncome();
+                        break;
+                    case "Manage Limits":
+                        // Add logic for managing limits
+                        break;
+                    case "Manage Savings Goals":
+                        // Add logic for managing savings goals
+                        break;
+                    case "Generate Report":
+                        // Add logic for generating report
+                        break;
+                    case "Check Expense Prognosis":
+                        // Add logic for checking expense prognosis
+                        break;
+                    case "Export Data":
+                        // Add logic for exporting data
+                        break;
+                    case "Exit":
+                        exit = true;
+                       
+                        break;
+                }
             }
+        }
+        private void AddExpense()
+        {
+            AddTransaction("Expense");
+        }
+        private void AddIncome()
+        {
+            AddTransaction("Income");
+        }
+        private void AddTransaction(string type)
+        {
+            if(type != "Expense" && type != "Income")
+            {
+                throw new ArgumentException("Transaction Type must be either Expense or Income");
+            }
+            string name;
+            double parsedAmount;
+            DateTime parsedDate;
+            string category;
+
+            // Validate name
+            while (true)
+            {
+                name = mainView.GetTransactionName();
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    mainView.ErrorMessage("Name must be provided.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // Validate amount
+            while (true)
+            {
+                string amount = mainView.GetTransactionAmount();
+                if (!double.TryParse(amount, out parsedAmount) || Math.Round(parsedAmount, 2) != parsedAmount)
+                {
+                    mainView.ErrorMessage("Amount must be a real number with up to 2 decimal places.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // Validate date
+            while (true)
+            {
+                string date = mainView.GetTransactionDate();
+                if (!DateTime.TryParseExact(date, "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out parsedDate))
+                {
+                    mainView.ErrorMessage("Date must be in the format yyyy-MM-dd HH:mm.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // Validate category
+            while (true)
+            {
+                category = mainView.GetTransactionCategory();
+                if (string.IsNullOrWhiteSpace(category))
+                {
+                    mainView.ErrorMessage("Category must be provided.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            
+            Transaction transaction = new Transaction(parsedAmount, parsedDate, name, category, type);
+            homeBudget.AddTransaction(transaction);
         }
     }
 }
