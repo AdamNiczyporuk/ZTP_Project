@@ -33,6 +33,36 @@ namespace ZTP_Project.Singleton
             SavingsGoals = new List<SavingsGoal>();
         }
 
+        public void AddTransaction(Transaction transaction)
+        {
+            Transactions.Add(transaction);
+        }
+
+        public void RemoveTransaction(Transaction transaction) 
+        {
+            Transactions.Remove(transaction);
+        }
+
+        public void SetSavingsGoal(SavingsGoal savingsGoal)
+        {
+            SavingsGoals.Add(savingsGoal);
+        }
+
+        public void RemoveSavingsGoal(SavingsGoal savingsGoal)
+        {
+            SavingsGoals.Remove(savingsGoal);
+        }
+
+        public void SetMonthlyExpenseLimit(string month, double limit) /// TU pewnie ci chodziło o takie coś Na wykresie jest tylko  limit
+        {
+            MonthlyExpenseLimit[month] = limit;
+        }
+
+        public bool Save (string path,string type)
+        {
+            return true;
+        }
+
 
 
 

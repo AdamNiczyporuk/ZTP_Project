@@ -8,11 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Decorator\" />
     <Folder Include="TemplateMethod\" />
     <Folder Include="Strategy\" />
-    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>
