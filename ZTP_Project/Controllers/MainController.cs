@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ZTP_Project.Models.Singleton;
 using ZTP_Project.Views;
 using ZTP_Project.Models;
+using System.ComponentModel;
 namespace ZTP_Project.Controllers
 {
     public class MainController
@@ -52,7 +53,7 @@ namespace ZTP_Project.Controllers
                         AddIncome();
                         break;
                     case "Manage Limits":
-                        // Add logic for managing limits
+                        MonthlyExpenseLimit();
                         break;
                     case "Manage Savings Goals":
                         // Add logic for managing savings goals
@@ -152,5 +153,43 @@ namespace ZTP_Project.Controllers
             Transaction transaction = new Transaction(parsedAmount, parsedDate, name, category, type);
             homeBudget.AddTransaction(transaction);
         }
+        private void MonthlyExpenseLimit()
+        {
+            string category;
+            double parsedLimit;
+            while (true)
+            {
+                category = mainView.GetCategoryOfExpenseLimit();
+
+                if (string.IsNullOrWhiteSpace(category))
+                {
+                    mainView.ErrorMessage("Category must be provided.");
+                }
+                else
+                {
+                    break;
+                }
+
+
+            }
+
+            while (true)
+            {
+                string limit = mainView.GetExpenseLimit();
+                if (!double.TryParse(limit, out parsedLimit) || Math.Round(parsedLimit, 2) != parsedLimit)
+                {
+                    mainView.ErrorMessage("Limit must be a real number with up to 2 decimal places.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            homeBudget.SetMonthlyExpenseLimit(category, parsedLimit);
+
+
+        }
     }
+    
+
 }

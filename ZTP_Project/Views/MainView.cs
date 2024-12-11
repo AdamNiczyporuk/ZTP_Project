@@ -51,5 +51,16 @@ namespace ZTP_Project.Views
             AnsiConsole.MarkupLine($"[red]{message}[/]");
         }
 
+        public string GetCategoryOfExpenseLimit()
+        {
+            return AnsiConsole.Ask<string>("What is the category?");
+        }
+
+        public string GetExpenseLimit()
+        {
+            return AnsiConsole.Ask<string>("What is the expense limit?");
+        }
+
+
     }
 }
