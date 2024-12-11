@@ -12,6 +12,7 @@ namespace ZTP_Project.TemplateMethod
 
         protected override StreamWriter OpenFile(string path)
         {
+            path += ".txt";
             return new StreamWriter(path);
         }
         protected override void InsertData(StreamWriter sw, List<Transaction> transactions)

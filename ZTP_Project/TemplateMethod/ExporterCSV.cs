@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,20 +13,22 @@ namespace ZTP_Project.TemplateMethod
 
         protected override StreamWriter OpenFile(string path)
         {
+            path += ".csv";
             return new StreamWriter(path);
         }
 
 
         protected override void InsertData(StreamWriter sw, List<Transaction> transactions)
         {
-            sw.WriteLine("Amout" + "," +"Date" + "," +"Name"+ "," + "Category" + "," +"Type");
+            sw.WriteLine("Amount;Date;Name;Category;Type");
             foreach (var t in transactions)
             {
-                sw.WriteLine(t.Amount + "," + t.Date + "," + t.Name + "," + t.Category + "," + t.Type);
+                string formattedDate = t.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                sw.WriteLine($"{t.Amount};{formattedDate};{t.Name};{t.Category};{t.Type}");
             }
         }
 
-       
-       
+
+
     }
 }

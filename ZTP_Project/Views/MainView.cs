@@ -53,7 +53,7 @@ namespace ZTP_Project.Views
 
         public string GetCategoryOfExpenseLimit()
         {
-            return AnsiConsole.Ask<string>("What is the category?");
+            return AnsiConsole.Ask<string>("What is the category of Expense Limit?");
         }
 
         public string GetExpenseLimit()
@@ -70,5 +70,14 @@ namespace ZTP_Project.Views
             return AnsiConsole.Ask<string>("What is the amount of the saving goal?");
         }
 
+       public string GetTypeOfExportedData()
+        {
+            return AnsiConsole.Ask<string>("In what type you would like to export Transactions");
+        }
+
+        public string GetPath()
+        {             
+            return AnsiConsole.Ask<string>("What is the path to the file?");
+        }
     }
 }

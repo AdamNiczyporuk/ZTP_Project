@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZTP_Project.Models;
+using ZTP_Project.TemplateMethod;
 namespace ZTP_Project.Models.Singleton
 {
     public class HomeBudget
@@ -60,7 +61,29 @@ namespace ZTP_Project.Models.Singleton
 
         public bool Save(string path, string type)
         {
-            return true;
+            Exporter exporter;
+
+            switch(type)
+            {
+                case "csv":
+                    exporter = new ExporterCSV();
+                    break;
+                case "txt":
+                    exporter = new ExporterTXT();
+                    break;
+                default:
+                    throw new ArgumentException("Unsupported file type");
+            }
+            try
+            {
+                exporter.Save(path, Transactions);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
         }
 
 

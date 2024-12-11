@@ -65,7 +65,7 @@ namespace ZTP_Project.Controllers
                         // Add logic for checking expense prognosis
                         break;
                     case "Export Data":
-                        // Add logic for exporting data
+                        ExportData();
                         break;
                     case "Exit":
                         exit = true;
@@ -219,6 +219,45 @@ namespace ZTP_Project.Controllers
             }
             SavingsGoal savingsGoal = new SavingsGoal(parsedAmount,name);
             homeBudget.SetSavingsGoal(savingsGoal);
+        }
+        private void ExportData()
+        {
+            string type;
+            string path;
+
+            while (true)
+            {
+                type = mainView.GetTypeOfExportedData();
+                if (string.IsNullOrWhiteSpace(type))
+                {
+                    mainView.ErrorMessage("Type must be provided.");
+                }
+                else if(type != "csv" && type != "txt")
+                {
+                    mainView.ErrorMessage("Type must be either csv or txt.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            while( true)
+            {
+                path = mainView.GetPath();
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    mainView.ErrorMessage("Path must be provided.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            homeBudget.Save(path, type);
+
+            
         }
     }
     
