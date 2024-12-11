@@ -13,10 +13,9 @@ namespace ZTP_Project.Strategy
     {
         public IRenderable GenerateReport(HomeBudget homeBudget, DateTime startDate, DateTime endDate)
         {
-
+            //var transactions = homeBudget.Transactions.Where(t => t.Date >= startDate && t.Date <= endDate).ToList();
             var root = new Tree("Root");
             return root;
         }
-    }
-   
+    } 
 }
