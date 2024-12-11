@@ -53,10 +53,10 @@ namespace ZTP_Project.Controllers
                         AddIncome();
                         break;
                     case "Manage Limits":
-                        MonthlyExpenseLimit();
+                        AddMonthlyExpenseLimit();
                         break;
                     case "Manage Savings Goals":
-                        // Add logic for managing savings goals
+                        AddSavingGoal();
                         break;
                     case "Generate Report":
                         // Add logic for generating report
@@ -153,7 +153,7 @@ namespace ZTP_Project.Controllers
             Transaction transaction = new Transaction(parsedAmount, parsedDate, name, category, type);
             homeBudget.AddTransaction(transaction);
         }
-        private void MonthlyExpenseLimit()
+        private void AddMonthlyExpenseLimit()
         {
             string category;
             double parsedLimit;
@@ -188,6 +188,37 @@ namespace ZTP_Project.Controllers
             homeBudget.SetMonthlyExpenseLimit(category, parsedLimit);
 
 
+        }
+        private void AddSavingGoal()
+        {
+            double parsedAmount;
+            string name;
+            while (true)
+            {
+                name = mainView.GetSavingGoalName();
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    mainView.ErrorMessage("Name must be provided.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            while (true)
+            {
+                string amount = mainView.GetSavingGoalAmount();
+                if (!double.TryParse(amount, out parsedAmount) || Math.Round(parsedAmount, 2) != parsedAmount)
+                {
+                    mainView.ErrorMessage("Amount must be a real number with up to 2 decimal places.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            SavingsGoal savingsGoal = new SavingsGoal(parsedAmount,name);
+            homeBudget.SetSavingsGoal(savingsGoal);
         }
     }
     

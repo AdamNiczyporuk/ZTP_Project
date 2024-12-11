@@ -61,6 +61,14 @@ namespace ZTP_Project.Views
             return AnsiConsole.Ask<string>("What is the expense limit?");
         }
 
+        public string GetSavingGoalName()
+        {
+            return AnsiConsole.Ask<string>("What is the name of the saving goal?");
+        }
+        public string GetSavingGoalAmount()
+        {
+            return AnsiConsole.Ask<string>("What is the amount of the saving goal?");
+        }
 
     }
 }
