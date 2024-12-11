@@ -1,0 +1,7 @@
+Amount;Date;Name;Category;Type
+1000;2024-12-01;Salary;Income;Income
+200;2024-12-03;Groceries;Food;Expense
+150;2024-12-05;Electricity Bill;Utilities;Expense
+50;2024-12-07;Internet Bill;Utilities;Expense
+300;2024-12-09;Freelance Work;Income;Income
+100;2024-12-10;Dining Out;Food;Expense
