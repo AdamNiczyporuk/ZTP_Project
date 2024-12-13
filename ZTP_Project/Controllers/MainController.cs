@@ -9,6 +9,7 @@ using ZTP_Project.Models;
 using System.ComponentModel;
 using Spectre.Console;
 using ZTP_Project.Decorator;
+using ZTP_Project.Strategy;
 namespace ZTP_Project.Controllers
 {
     public class MainController
@@ -78,7 +79,38 @@ namespace ZTP_Project.Controllers
             }
         }
         private void GenerateReport()
-        { }
+        {
+            bool startDateProvided = false;
+            bool endDateProvided = false;
+            bool divisionIntoCategories = false;
+
+            var options = mainView.GetReportOption();
+            foreach (var option in options)
+            {
+                switch (option)
+                {
+                    case "Define start date ":
+
+                        break;
+                    case "Define end date":
+
+                        break;
+                    case "Division into categories":
+
+
+                        break;
+                }
+            }
+            if(divisionIntoCategories)
+            {
+               
+            }
+            else
+            {
+                var reportController = new ReportController(new SummaryReportStrategy());
+                reportController.ShowReport(homeBudget, DateTime.MinValue, DateTime.MaxValue);
+            }
+        }
         private void AddExpense()
         {
             AddTransaction("Expense");

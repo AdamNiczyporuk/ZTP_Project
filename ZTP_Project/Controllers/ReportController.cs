@@ -18,12 +18,19 @@ namespace ZTP_Project.Controllers
         public ReportController(IReportGeneratorStrategy reportStrategy)
         {
             _reportStrategy = reportStrategy;
-
+           
         }
 
         public void ShowReport(HomeBudget homeBudget,DateTime startdate, DateTime enddate)
         {
-           
+           var report = _reportStrategy.GenerateReport(homeBudget, startdate, enddate);
+            _reportView = new ReportView(report);
+            _reportView.ClearScreen();
+            _reportView.DisplayTransactions(homeBudget.GetTransactions(startdate,enddate));
+            _reportView.DisplayReport();
+            Console.ReadKey();
+
+
         }
 
     }

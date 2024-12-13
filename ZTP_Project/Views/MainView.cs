@@ -186,6 +186,22 @@ namespace ZTP_Project.Views
         {
             return AnsiConsole.Ask<string>($"{message}(yyyy-MM-dd)?");
         }
+        public List<string> GetReportOption()
+        {
+            return AnsiConsole.Prompt(
+    new MultiSelectionPrompt<string>()
+        .Title("Report [green]options[/]?")
+        .PageSize(10)
+        .NotRequired()
+        .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
+        .InstructionsText(
+            "[grey](Press [blue]<space>[/] to choose option, " +
+            "[green]<enter>[/] to accept)[/]")
+        .AddChoices(new[] {
+            "Define start date ", "Define end date", "Division into categories"
+
+        }));
+        }
     }
     
 }

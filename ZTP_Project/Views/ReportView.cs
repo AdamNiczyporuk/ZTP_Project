@@ -22,7 +22,7 @@ namespace ZTP_Project.Views
         {
           AnsiConsole.Render(report);
         }
-        private void DisplayTransactions(List<Transaction> transactions)
+        public void DisplayTransactions(List<Transaction> transactions)
         {
             var table = new Table();
             table.AddColumn("Name");
@@ -43,6 +43,10 @@ namespace ZTP_Project.Views
             }
 
             AnsiConsole.Render(table);
+        }
+        public void ClearScreen()
+        {
+            AnsiConsole.Clear();
         }
     }
 }
