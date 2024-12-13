@@ -116,7 +116,8 @@ namespace ZTP_Project.Controllers
             }
             if(divisionIntoCategories)
             {
-               
+               var reportController = new ReportController(new CategoriesReportStrategy());
+                reportController.ShowReport(homeBudget, parsedStartDate, parsedEndDate);
             }
             else
             {
