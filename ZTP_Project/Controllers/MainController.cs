@@ -57,7 +57,7 @@ namespace ZTP_Project.Controllers
                         ManageExpenseLimits();
                         break;
                     case "Manage Savings Goals":
-                        AddSavingGoal();
+                        ManageSavingGoals();
                         break;
                     case "Generate Report":
                         // Add logic for generating report
@@ -70,7 +70,7 @@ namespace ZTP_Project.Controllers
                         break;
                     case "Exit":
                         exit = true;
-                       
+
                         break;
                 }
             }
@@ -85,7 +85,7 @@ namespace ZTP_Project.Controllers
         }
         private void AddTransaction(string type)
         {
-            if(type != "Expense" && type != "Income")
+            if (type != "Expense" && type != "Income")
             {
                 throw new ArgumentException("Transaction Type must be either Expense or Income");
             }
@@ -150,7 +150,7 @@ namespace ZTP_Project.Controllers
                 }
             }
 
-            
+
             Transaction transaction = new Transaction(parsedAmount, parsedDate, name, category, type);
             homeBudget.AddTransaction(transaction);
         }
@@ -174,7 +174,7 @@ namespace ZTP_Project.Controllers
 
 
             }
-           
+
 
             while (true)
             {
@@ -220,7 +220,7 @@ namespace ZTP_Project.Controllers
                     break;
                 }
             }
-            SavingsGoal savingsGoal = new SavingsGoal(parsedAmount,name);
+            SavingsGoal savingsGoal = new SavingsGoal(parsedAmount, name);
             homeBudget.SetSavingsGoal(savingsGoal);
         }
         private void ExportData()
@@ -235,7 +235,7 @@ namespace ZTP_Project.Controllers
                 {
                     mainView.ErrorMessage("Type must be provided.");
                 }
-                else if(type != "csv" && type != "txt")
+                else if (type != "csv" && type != "txt")
                 {
                     mainView.ErrorMessage("Type must be either csv or txt.");
                 }
@@ -244,8 +244,8 @@ namespace ZTP_Project.Controllers
                     break;
                 }
             }
-            
-            while( true)
+
+            while (true)
             {
                 path = mainView.GetPath();
                 if (string.IsNullOrWhiteSpace(path))
@@ -260,7 +260,7 @@ namespace ZTP_Project.Controllers
 
             homeBudget.Save(path, type);
 
-            
+
         }
         public void ManageExpenseLimits()
         {
@@ -306,8 +306,19 @@ namespace ZTP_Project.Controllers
             return;
 
         }
+        public void ManageSavingGoals()
+        {
+            while (true)
+            {
+                mainView.ClearScreen();
+                var savingsGoals = homeBudget.SavingsGoals;
+                var amount = homeBudget.GetTotalAmount();
+                mainView.DisplaySavingsGoals(savingsGoals, amount);
+                Console.ReadLine();
+
+            }
+
+        }
 
     }
-    
-
 }

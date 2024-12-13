@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZTP_Project.Models;
 
 namespace ZTP_Project.Views
 {
@@ -128,6 +129,24 @@ namespace ZTP_Project.Views
         {
             AnsiConsole.MarkupLine($"[green]{message}[/]");
             Console.ReadKey();
+        }
+        public void DisplaySavingsGoals(List<SavingsGoal> savingsGoals, double amount)
+        {
+            var table = new Table();
+            table.Border = TableBorder.Rounded;
+            table.Title = new TableTitle("Savings Goals");
+            table.AddColumn("Name");
+            table.AddColumn("Amount");
+            table.AddColumn("Status");
+            table.AddColumns("Progress");
+            table.Centered();
+            foreach (var goal in savingsGoals)
+            {
+               var progress = ( amount / goal.Amount) * 100;
+
+                table.AddRow(goal.Name, goal.Amount.ToString(), goal.isReached ? "[green]Reached[/]" : "[red]Not reached[/]",$"{progress}%");
+            }
+            AnsiConsole.Render(table);
         }
     }
 }

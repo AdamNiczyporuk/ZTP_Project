@@ -88,6 +88,17 @@ namespace ZTP_Project.Models.Singleton
 
 
 
-
+        public double GetTotalAmount()
+        {
+            double totalAmount = 0;
+            foreach (Transaction transaction in Transactions)
+            {
+                if(transaction.Type == "Expense")
+                    totalAmount -= transaction.Amount;
+                else
+                    totalAmount += transaction.Amount;
+            }
+            return totalAmount;
+        }
     }
 }
