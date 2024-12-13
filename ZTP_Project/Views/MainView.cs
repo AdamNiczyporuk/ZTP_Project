@@ -120,7 +120,7 @@ namespace ZTP_Project.Views
         {
             var categories = limits.Keys.ToList();
             return AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose [green]category[/]")
+                .Title("Choose [red]category[/] to remove")
                 .PageSize(10)
                 .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
                 .AddChoices(categories));
@@ -147,6 +147,24 @@ namespace ZTP_Project.Views
                 table.AddRow(goal.Name, goal.Amount.ToString(), goal.isReached ? "[green]Reached[/]" : "[red]Not reached[/]",$"{progress}%");
             }
             AnsiConsole.Render(table);
+        }
+        public string ChooseSavingsGoal(List<SavingsGoal> savingsGoals)
+        {
+            List<string> categories = new List<string>();
+            savingsGoals.ForEach(x => categories.Add(x.Name));
+            return AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Choose [red]savings goal[/] to remove")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .AddChoices(categories));
+        }
+        public string ManageSavingsGoals()
+        {
+            return AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .AddChoices(new[] { "Set Savings Goal", "Remove Savings Goal", "Back" }));
         }
     }
 }

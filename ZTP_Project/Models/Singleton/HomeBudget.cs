@@ -46,6 +46,12 @@ namespace ZTP_Project.Models.Singleton
 
         public void SetSavingsGoal(SavingsGoal savingsGoal)
         {
+            var existingGoal = SavingsGoals.Find(x => x.Name == savingsGoal.Name);
+            if (existingGoal != null)
+            {
+                existingGoal.Amount = savingsGoal.Amount;
+                return;
+            }
             SavingsGoals.Add(savingsGoal);
         }
 

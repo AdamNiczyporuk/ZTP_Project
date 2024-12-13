@@ -208,6 +208,7 @@ namespace ZTP_Project.Controllers
                     break;
                 }
             }
+            
             while (true)
             {
                 string amount = mainView.GetSavingGoalAmount();
@@ -313,10 +314,42 @@ namespace ZTP_Project.Controllers
                 mainView.ClearScreen();
                 var savingsGoals = homeBudget.SavingsGoals;
                 var amount = homeBudget.GetTotalAmount();
+                foreach (var goal in savingsGoals)
+                {
+                    if (goal.Amount <= amount)
+                    {
+                        goal.isReached = true;
+                    }
+                    else
+                    {
+                        goal.isReached = false;
+                    }
+                }
                 mainView.DisplaySavingsGoals(savingsGoals, amount);
-                Console.ReadLine();
+                var option = mainView.ManageSavingsGoals();
 
+                switch (option)
+                {
+                    case "Set Savings Goal":
+                        AddSavingGoal();
+                        break;
+                    case "Remove Savings Goal":
+                        RemoveSavingGoal();
+                        break;
+                    case "Back":
+                        return;
+
+                }
             }
+
+        }
+        public void RemoveSavingGoal()
+        {
+            var savingsGoal = mainView.ChooseSavingsGoal(homeBudget.SavingsGoals);
+            mainView.ClearScreen();
+            homeBudget.SavingsGoals.RemoveAll(x => x.Name == savingsGoal);
+            mainView.ShowMessage("Savings Goal removed successfully");
+            return;
 
         }
 
