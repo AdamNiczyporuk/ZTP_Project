@@ -36,7 +36,7 @@ namespace ZTP_Project.Views
                 table.AddRow(
                     transaction.Name,
                     transaction.Category,
-                    transaction.Amount.ToString("C"),
+                    transaction.Amount.ToString("F2")+" zł",
                     transaction.Date.ToString("yyyy-MM-dd HH:mm")
 
                 );

@@ -95,11 +95,11 @@ namespace ZTP_Project.Views
 
                 if (currentValue < limit.Value)
                 {
-                    barChart.AddItem($"{limit.Key} [blue]{limit.Value}[/]  [green]open![/]", (int)percentage, Color.Green);
+                    barChart.AddItem($"{limit.Key} [blue]{limit.Value.ToString("F2")}[/]  [green]open![/]", (int)percentage, Color.Green);
                 }
                 else
                 {
-                    barChart.AddItem($"{limit.Key} [blue]{limit.Value}[/] [red]reached![/]", 100, Color.Red);
+                    barChart.AddItem($"{limit.Key} [blue]{limit.Value.ToString("F2")}[/] [red]reached![/]", 100, Color.Red);
                 }
 
                 index++;
@@ -144,7 +144,7 @@ namespace ZTP_Project.Views
             {
                var progress = ( amount / goal.Amount) * 100;
 
-                table.AddRow(goal.Name, goal.Amount.ToString(), goal.isReached ? "[green]Reached[/]" : "[red]Not reached[/]",$"{progress}%");
+                table.AddRow(goal.Name, goal.Amount.ToString("F2"), goal.isReached ? "[green]Reached[/]" : "[red]Not reached[/]",$"{progress}%");
             }
             AnsiConsole.Render(table);
         }

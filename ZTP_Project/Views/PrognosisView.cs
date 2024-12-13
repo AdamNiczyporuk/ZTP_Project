@@ -41,7 +41,7 @@ namespace ZTP_Project.Views
         AnsiConsole.MarkupLine("LOG: Finishing...");
         Thread.Sleep(2000);
             });
-            var panel = new Panel($"Your prognosis to {endDay.ToString()} is: [green]{Math.Round(amount,2)}[/]zł")
+            var panel = new Panel($"Your prognosis to {endDay.ToString()} is: [green]{amount.ToString("F2")}[/]zł")
                 .Header("[green]Prognosis[/]");
             AnsiConsole.Render(panel);
         }
