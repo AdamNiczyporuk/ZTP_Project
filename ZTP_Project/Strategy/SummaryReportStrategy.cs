@@ -30,9 +30,9 @@ namespace ZTP_Project.Strategy
                 }
             }
             var breakdownChart = new BreakdownChart()
-            .Width(60)
-            .AddItem("Incomes", 80, Color.Green)
-            .AddItem("Expenses", 28.3, Color.Red3);
+            .Width(70)
+            .AddItem("Incomes", incomes, Color.Green)
+            .AddItem("Expenses", expenses, Color.Red3);
     
 
            

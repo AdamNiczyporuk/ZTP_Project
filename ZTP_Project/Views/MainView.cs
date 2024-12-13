@@ -186,6 +186,14 @@ namespace ZTP_Project.Views
         {
             return AnsiConsole.Ask<string>($"{message}(yyyy-MM-dd)?");
         }
+        public string GetReportType()
+        {
+            return AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Choose [green]type[/] of report")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .AddChoices(new[] { "Summary","Monthly","Annual" , "Custom" }));
+        }
         public List<string> GetReportOption()
         {
             return AnsiConsole.Prompt(
@@ -198,9 +206,17 @@ namespace ZTP_Project.Views
             "[grey](Press [blue]<space>[/] to choose option, " +
             "[green]<enter>[/] to accept)[/]")
         .AddChoices(new[] {
-            "Define start date ", "Define end date", "Division into categories"
+             "Division into categories"
 
         }));
+        }
+        public string GetYear()
+        {
+            return AnsiConsole.Ask<string>("For what year do you want the report?");
+        }
+        public string GetMonth()
+        {
+            return AnsiConsole.Ask<string>("For what month do you want the report?");
         }
     }
     

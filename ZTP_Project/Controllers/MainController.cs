@@ -80,8 +80,26 @@ namespace ZTP_Project.Controllers
         }
         private void GenerateReport()
         {
-            bool startDateProvided = false;
-            bool endDateProvided = false;
+            DateTime parsedStartDate = DateTime.MinValue;
+            DateTime parsedEndDate  =DateTime.MaxValue; ;
+            var option1 = mainView.GetReportType();
+            switch (option1)
+            {
+                case "Summary":
+                    parsedEndDate = DateTime.MaxValue;
+                    parsedStartDate = DateTime.MinValue;
+                    break;
+                case "Annual":
+                    GetYearForAnnualReport(out parsedStartDate, out parsedEndDate);
+                    break;
+                case "Monthly":
+                    GetMonthForMonthlyReport(out parsedStartDate, out parsedEndDate);
+                    break;
+                case "Custom":
+                    GetDatesForCustomReport(out parsedStartDate, out parsedEndDate);
+                    break;
+            }
+
             bool divisionIntoCategories = false;
 
             var options = mainView.GetReportOption();
@@ -89,14 +107,9 @@ namespace ZTP_Project.Controllers
             {
                 switch (option)
                 {
-                    case "Define start date ":
-
-                        break;
-                    case "Define end date":
-
-                        break;
+                    
                     case "Division into categories":
-
+                        divisionIntoCategories = true;
 
                         break;
                 }
@@ -108,8 +121,97 @@ namespace ZTP_Project.Controllers
             else
             {
                 var reportController = new ReportController(new SummaryReportStrategy());
-                reportController.ShowReport(homeBudget, DateTime.MinValue, DateTime.MaxValue);
+                reportController.ShowReport(homeBudget, parsedStartDate, parsedEndDate);
             }
+        }
+        public void GetYearForAnnualReport(out DateTime parsedStartDate, out DateTime parsedEndDate)
+        {
+
+            while (true)
+            {
+                string year = mainView.GetYear();
+                if (int.TryParse(year, out int yearInt) && yearInt >= 1900 && yearInt <= 2300)
+                {
+                    parsedStartDate = new DateTime(yearInt, 1, 1);
+                    parsedEndDate = parsedStartDate.AddYears(1).AddDays(-1);
+                    break;
+                }
+                else
+                {
+                    mainView.ErrorMessage("Year must be an integer between 1900 and 2300.");
+                }
+            }
+            parsedEndDate = parsedStartDate.AddYears(1).AddDays(-1);
+        }
+        public void GetDatesForCustomReport(out DateTime parsedStartDate, out DateTime parsedEndDate)
+        {
+            while (true)
+            {
+                string startDate = mainView.GetDate("Provide the start date");
+                if (!DateTime.TryParseExact(startDate, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out parsedStartDate))
+                {
+                    mainView.ErrorMessage("Start date must be in the format yyyy-MM-dd.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // Validate end date
+            while (true)
+            {
+                string endDate = mainView.GetDate("Provide the end date");
+                if (!DateTime.TryParseExact(endDate, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out parsedEndDate))
+                {
+                    mainView.ErrorMessage("End date must be in the format yyyy-MM-dd.");
+                }
+                else if (parsedEndDate < parsedStartDate)
+                {
+                    mainView.ErrorMessage("End date must be after the start date.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+        }
+        public void GetMonthForMonthlyReport(out DateTime parsedStartDate, out DateTime parsedEndDate)
+        {
+            int yearInt;
+            int monthInt;
+
+            // Validate year
+            while (true)
+            {
+                string year = mainView.GetYear();
+                if (int.TryParse(year, out yearInt) && yearInt >= 1900 && yearInt <= 2300)
+                {
+                    break;
+                }
+                else
+                {
+                    mainView.ErrorMessage("Year must be an integer between 1900 and 2300.");
+                }
+            }
+
+            // Validate month
+            while (true)
+            {
+                string month = mainView.GetMonth();
+                if (int.TryParse(month, out monthInt) && monthInt >= 1 && monthInt <= 12)
+                {
+                    break;
+                }
+                else
+                {
+                    mainView.ErrorMessage("Month must be an integer between 1 and 12.");
+                }
+            }
+
+            parsedStartDate = new DateTime(yearInt, monthInt, 1);
+            parsedEndDate = parsedStartDate.AddMonths(1).AddDays(-1);
         }
         private void AddExpense()
         {
