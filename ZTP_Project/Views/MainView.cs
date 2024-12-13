@@ -82,30 +82,30 @@ namespace ZTP_Project.Views
         }
         public void DisplayExpenseLimits(Dictionary<string, double> monthlyExpenseLimits, List<double> currentValues)
         {
-            var barChart = new BarChart()
-                .Width(60)
-                .Label("[green bold]Monthly Expense Limits %[/]")
-                .CenterLabel();
-            barChart.MaxValue = 100;
+            var table = new Table();
+            table.Border = TableBorder.Rounded;
+            table.Title = new TableTitle("Monthly Expense Limits");
+            table.AddColumn("Category");
+            table.AddColumn("Limit");
+            table.AddColumn("Current Value");
+            table.AddColumn("Status");
+            table.AddColumn("State");
+            table.Centered();
+
             int index = 0;
             foreach (var limit in monthlyExpenseLimits)
             {
                 double currentValue = currentValues[index];
                 double percentage = (currentValue / limit.Value) * 100;
+                string status = currentValue < limit.Value ? "[green]Open[/]" : "[red]Reached[/]";
+                string progress = $"{percentage:F2}%";
 
-                if (currentValue < limit.Value)
-                {
-                    barChart.AddItem($"{limit.Key} [blue]{limit.Value.ToString("F2")}[/]  [green]open![/]", (int)percentage, Color.Green);
-                }
-                else
-                {
-                    barChart.AddItem($"{limit.Key} [blue]{limit.Value.ToString("F2")}[/] [red]reached![/]", 100, Color.Red);
-                }
+                table.AddRow(limit.Key, limit.Value.ToString("F2")+"zł", currentValue.ToString("F2")+"zł", status, progress);
 
                 index++;
             }
 
-            AnsiConsole.Write(barChart);
+            AnsiConsole.Render(table);
         }
         public string ManageExpenseLimits()
         {
