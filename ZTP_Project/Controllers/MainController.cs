@@ -156,6 +156,7 @@ namespace ZTP_Project.Controllers
         }
         private void AddMonthlyExpenseLimit()
         {
+            mainView.ClearScreen();
             string category;
             double parsedLimit;
             while (true)
@@ -173,6 +174,7 @@ namespace ZTP_Project.Controllers
 
 
             }
+           
 
             while (true)
             {
@@ -262,32 +264,49 @@ namespace ZTP_Project.Controllers
         }
         public void ManageExpenseLimits()
         {
-            var transactions = homeBudget.Transactions;
-            var monthlyExpenseLimits = homeBudget.MonthlyExpenseLimit;
-            var currentMonth = DateTime.Now.Month;
-            var currentYear = DateTime.Now.Year;
-            var currentValues = new List<double>();
-            foreach (var limit in monthlyExpenseLimits)
+            while (true)
             {
-                var category = limit.Key;
-                
-                var currentMonthValue = transactions.Where(t => t.Category == category && t.Date.Month == currentMonth && t.Date.Year == currentYear).Sum(t => t.Amount);
-                currentValues.Add(currentMonthValue);
-            }
-            mainView.ClearScreen();
-            mainView.DisplayExpenseLimits(monthlyExpenseLimits, currentValues);
-            var option = mainView.ManageExpenseLimits();
-            switch (option)
-            {
-                case "Set Monthly Expense Limit":
-                    AddMonthlyExpenseLimit();
-                    break;
-                case "Remove Monthly Expense Limit":
-                    break;
-                case "Back":
-                    break;
+
+                var transactions = homeBudget.Transactions;
+                var monthlyExpenseLimits = homeBudget.MonthlyExpenseLimits;
+                var currentMonth = DateTime.Now.Month;
+                var currentYear = DateTime.Now.Year;
+                var currentValues = new List<double>();
+                foreach (var limit in monthlyExpenseLimits)
+                {
+                    var category = limit.Key;
+
+                    var currentMonthValue = transactions.Where(t => t.Category == category && t.Date.Month == currentMonth && t.Date.Year == currentYear).Sum(t => t.Amount);
+                    currentValues.Add(currentMonthValue);
+                }
+                mainView.ClearScreen();
+                mainView.DisplayExpenseLimits(monthlyExpenseLimits, currentValues);
+                var option = mainView.ManageExpenseLimits();
+
+                switch (option)
+                {
+                    case "Set Monthly Expense Limit":
+                        AddMonthlyExpenseLimit();
+                        break;
+                    case "Remove Monthly Expense Limit":
+                        RemoveMonthlyExpenseLimit();
+                        break;
+                    case "Back":
+                        return;
+
+                }
             }
         }
+        public void RemoveMonthlyExpenseLimit()
+        {
+            var category = mainView.ChooseLimit(homeBudget.MonthlyExpenseLimits);
+            mainView.ClearScreen();
+            homeBudget.MonthlyExpenseLimits.Remove(category);
+            mainView.ShowMessage("Monthly Expense Limit removed successfully");
+            return;
+
+        }
+
     }
     
 

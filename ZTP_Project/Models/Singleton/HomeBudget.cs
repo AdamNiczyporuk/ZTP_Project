@@ -14,7 +14,7 @@ namespace ZTP_Project.Models.Singleton
 
         public List<Transaction> Transactions { get; private set; }
 
-        public Dictionary<string, double> MonthlyExpenseLimit { get; private set; } //kategoria, limit
+        public Dictionary<string, double> MonthlyExpenseLimits { get; private set; } //kategoria, limit
 
         public List<SavingsGoal> SavingsGoals { get; private set; }
 
@@ -30,7 +30,7 @@ namespace ZTP_Project.Models.Singleton
         private HomeBudget()
         {
             Transactions = new List<Transaction>();
-            MonthlyExpenseLimit = new Dictionary<string, double>();
+            MonthlyExpenseLimits = new Dictionary<string, double>();
             SavingsGoals = new List<SavingsGoal>();
         }
 
@@ -56,7 +56,7 @@ namespace ZTP_Project.Models.Singleton
 
         public void SetMonthlyExpenseLimit(string category, double limit) 
         {
-            MonthlyExpenseLimit[category] = limit;
+            MonthlyExpenseLimits[category] = limit;
         }
 
         public bool Save(string path, string type)

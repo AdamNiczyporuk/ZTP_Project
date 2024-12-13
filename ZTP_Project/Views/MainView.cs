@@ -83,7 +83,7 @@ namespace ZTP_Project.Views
         {
             var barChart = new BarChart()
                 .Width(60)
-                .Label("[green bold]Monthly Expense Limits[/]")
+                .Label("[green bold]Monthly Expense Limits %[/]")
                 .CenterLabel();
             barChart.MaxValue = 100;
             int index = 0;
@@ -94,11 +94,11 @@ namespace ZTP_Project.Views
 
                 if (currentValue < limit.Value)
                 {
-                    barChart.AddItem($"{limit.Key}    [green]open![/]", (int)percentage, Color.Green);
+                    barChart.AddItem($"{limit.Key} [blue]{limit.Value}[/]  [green]open![/]", (int)percentage, Color.Green);
                 }
                 else
                 {
-                    barChart.AddItem($"{limit.Key} [red]reached![/]", 100, Color.Red);
+                    barChart.AddItem($"{limit.Key} [blue]{limit.Value}[/] [red]reached![/]", 100, Color.Red);
                 }
 
                 index++;
@@ -109,29 +109,25 @@ namespace ZTP_Project.Views
         public string ManageExpenseLimits()
         {
             return AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose [green]option[/]")
+                .Title("")
                 .PageSize(10)
                 .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
                 .AddChoices(new[] { "Set Monthly Expense Limit", "Remove Monthly Expense Limit", "Back" }));
         }
-        public string ChooseLimitWithNewOption(Dictionary<string, double> limits)
-        {
-            var categories = limits.Keys.ToList();
-            return AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose [green]option[/]")
-                .PageSize(10)
-                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
-                .AddChoices("Create new limit")
-                .AddChoices(categories));
-        }
+        
         public string ChooseLimit(Dictionary<string, double> limits)
         {
             var categories = limits.Keys.ToList();
             return AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose [green]option[/]")
+                .Title("Choose [green]category[/]")
                 .PageSize(10)
                 .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
                 .AddChoices(categories));
+        }
+        public void ShowMessage(string message)
+        {
+            AnsiConsole.MarkupLine($"[green]{message}[/]");
+            Console.ReadKey();
         }
     }
 }
