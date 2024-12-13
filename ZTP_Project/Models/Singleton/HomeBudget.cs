@@ -12,11 +12,11 @@ namespace ZTP_Project.Models.Singleton
     {
         private static HomeBudget _instance;
 
-        private List<Transaction> Transactions { get; set; }
+        public List<Transaction> Transactions { get; private set; }
 
-        private Dictionary<string, double> MonthlyExpenseLimit { get; set; } //kategoria, limit
+        public Dictionary<string, double> MonthlyExpenseLimit { get; private set; } //kategoria, limit
 
-        private List<SavingsGoal> SavingsGoals { get; set; }
+        public List<SavingsGoal> SavingsGoals { get; private set; }
 
         public static HomeBudget GetInstance()
         {
