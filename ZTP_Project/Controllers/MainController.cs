@@ -37,6 +37,7 @@ namespace ZTP_Project.Controllers
                 homeBudget.AddTransaction(transaction);
             }
             homeBudget.SetMonthlyExpenseLimit("Food", 1000);
+            homeBudget.SetMonthlyExpenseLimit("Utilities", 200);
         }
         public void StartMainMenu()
         {
@@ -53,7 +54,7 @@ namespace ZTP_Project.Controllers
                         AddIncome();
                         break;
                     case "Manage Limits":
-                        AddMonthlyExpenseLimit();
+                        ManageExpenseLimits();
                         break;
                     case "Manage Savings Goals":
                         AddSavingGoal();
@@ -258,6 +259,34 @@ namespace ZTP_Project.Controllers
             homeBudget.Save(path, type);
 
             
+        }
+        public void ManageExpenseLimits()
+        {
+            var transactions = homeBudget.Transactions;
+            var monthlyExpenseLimits = homeBudget.MonthlyExpenseLimit;
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+            var currentValues = new List<double>();
+            foreach (var limit in monthlyExpenseLimits)
+            {
+                var category = limit.Key;
+                
+                var currentMonthValue = transactions.Where(t => t.Category == category && t.Date.Month == currentMonth && t.Date.Year == currentYear).Sum(t => t.Amount);
+                currentValues.Add(currentMonthValue);
+            }
+            mainView.ClearScreen();
+            mainView.DisplayExpenseLimits(monthlyExpenseLimits, currentValues);
+            var option = mainView.ManageExpenseLimits();
+            switch (option)
+            {
+                case "Set Monthly Expense Limit":
+                    AddMonthlyExpenseLimit();
+                    break;
+                case "Remove Monthly Expense Limit":
+                    break;
+                case "Back":
+                    break;
+            }
         }
     }
     
