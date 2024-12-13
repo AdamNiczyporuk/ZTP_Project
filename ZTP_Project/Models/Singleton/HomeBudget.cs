@@ -92,7 +92,10 @@ namespace ZTP_Project.Models.Singleton
             }
         }
 
-
+        public List<Transaction> GetTransactions(DateTime startDate, DateTime endDate)
+        {
+            return Transactions.Where(x => x.Date >= startDate && x.Date <= endDate).ToList();
+        }
 
         public double GetTotalAmount()
         {

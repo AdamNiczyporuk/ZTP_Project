@@ -62,7 +62,7 @@ namespace ZTP_Project.Controllers
                         ManageSavingGoals();
                         break;
                     case "Generate Report":
-                        // Add logic for generating report
+                        GenerateReport();
                         break;
                     case "Check Expense Prognosis":
                         CheckExpensePrognosis();
@@ -77,6 +77,8 @@ namespace ZTP_Project.Controllers
                 }
             }
         }
+        private void GenerateReport()
+        { }
         private void AddExpense()
         {
             AddTransaction("Expense");
@@ -265,7 +267,7 @@ namespace ZTP_Project.Controllers
 
 
         }
-        public void ManageExpenseLimits()
+        private void ManageExpenseLimits()
         {
             while (true)
             {
@@ -300,7 +302,7 @@ namespace ZTP_Project.Controllers
                 }
             }
         }
-        public void RemoveMonthlyExpenseLimit()
+        private void RemoveMonthlyExpenseLimit()
         {
             var category = mainView.ChooseLimit(homeBudget.MonthlyExpenseLimits);
             mainView.ClearScreen();
@@ -309,7 +311,7 @@ namespace ZTP_Project.Controllers
             return;
 
         }
-        public void ManageSavingGoals()
+        private void ManageSavingGoals()
         {
             while (true)
             {
@@ -345,7 +347,7 @@ namespace ZTP_Project.Controllers
             }
 
         }
-        public void RemoveSavingGoal()
+        private void RemoveSavingGoal()
         {
             var savingsGoal = mainView.ChooseSavingsGoal(homeBudget.SavingsGoals);
             mainView.ClearScreen();
@@ -355,7 +357,7 @@ namespace ZTP_Project.Controllers
 
         }
 
-        public void CheckExpensePrognosis()
+        private void CheckExpensePrognosis()
         {
             
             DateTime parsedDate;
@@ -405,7 +407,7 @@ namespace ZTP_Project.Controllers
             }
 
         }
-        public IPrognosis DefineDataRange(IPrognosis prognosis)
+        private IPrognosis DefineDataRange(IPrognosis prognosis)
         {
             DateTime parsedStartDate;
             DateTime parsedEndDate;

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spectre.Console;
+using Spectre.Console.Cli;
 using Spectre.Console.Rendering;
+using ZTP_Project.Models;
 using ZTP_Project.Models.Singleton;
 
 namespace ZTP_Project.Strategy
@@ -13,9 +15,30 @@ namespace ZTP_Project.Strategy
     {
         public IRenderable GenerateReport(HomeBudget homeBudget, DateTime startDate, DateTime endDate)
         {
-            //var transactions = homeBudget.Transactions.Where(t => t.Date >= startDate && t.Date <= endDate).ToList();
-            var root = new Tree("Root");
-            return root;
+            var tranzactions = homeBudget.GetTransactions(startDate, endDate);
+            double incomes = 0;
+            double expenses = 0;
+            foreach (var tranzaction in tranzactions)
+            {
+                if (tranzaction.Type == "Income")
+                {
+                    incomes += tranzaction.Amount;
+                }
+                else
+                {
+                    expenses += tranzaction.Amount;
+                }
+            }
+            var breakdownChart = new BreakdownChart()
+            .Width(60)
+            .AddItem("Incomes", 80, Color.Green)
+            .AddItem("Expenses", 28.3, Color.Red3);
+    
+
+           
+            return breakdownChart;
         }
-    } 
+       
+    }
+    
 }
