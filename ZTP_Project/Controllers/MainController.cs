@@ -7,6 +7,8 @@ using ZTP_Project.Models.Singleton;
 using ZTP_Project.Views;
 using ZTP_Project.Models;
 using System.ComponentModel;
+using Spectre.Console;
+using ZTP_Project.Decorator;
 namespace ZTP_Project.Controllers
 {
     public class MainController
@@ -63,7 +65,7 @@ namespace ZTP_Project.Controllers
                         // Add logic for generating report
                         break;
                     case "Check Expense Prognosis":
-                        // Add logic for checking expense prognosis
+                        CheckExpensePrognosis();
                         break;
                     case "Export Data":
                         ExportData();
@@ -208,7 +210,7 @@ namespace ZTP_Project.Controllers
                     break;
                 }
             }
-            
+
             while (true)
             {
                 string amount = mainView.GetSavingGoalAmount();
@@ -353,5 +355,90 @@ namespace ZTP_Project.Controllers
 
         }
 
+        public void CheckExpensePrognosis()
+        {
+            
+            DateTime parsedDate;
+            // Validate date
+            while (true)
+            {
+                string date = mainView.GetDate("Provide final day of prognosis");
+                if (!DateTime.TryParseExact(date, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out parsedDate))
+                {
+                    mainView.ErrorMessage("Date must be in the format yyyy-MM-dd");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            DateOnly endDate = DateOnly.FromDateTime(parsedDate);
+
+            IPrognosis prognosis = new Prognosis(endDate);
+            var options = mainView.GetPrognosisOption();
+            foreach (var option in options)
+            {
+                switch (option)
+                {
+                    case "Define data range":
+                        prognosis= DefineDataRange(prognosis);
+                        break;
+                    case "Plan to save more":
+                        prognosis = new MultiplayDecorator(prognosis, 0.8);
+                        break;
+                    case "Plan bigger expenses":
+                        prognosis = new MultiplayDecorator(prognosis, 1.2);
+                        break;
+                }
+            }
+            try
+            {
+               mainView.ClearScreen();
+               var prognosisView = new PrognosisView(prognosis);
+               prognosisView.DisplayPrognosis(endDate);
+               mainView.ShowMessage("Prognosis generated successfully press any key to return");
+
+            }
+            catch (Exception e)
+            {
+                mainView.ErrorMessage(e.Message);
+            }
+
+        }
+        public IPrognosis DefineDataRange(IPrognosis prognosis)
+        {
+            DateTime parsedStartDate;
+            DateTime parsedEndDate;
+            // Validate date
+            while (true)
+            {
+                string startDate = mainView.GetDate("Provide date [blue]from[/] witch we should take tranzactions to analisis");
+                if (!DateTime.TryParseExact(startDate, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out parsedStartDate))
+                {
+                    mainView.ErrorMessage("Date must be in the format yyyy-MM-dd");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            // Validate date
+            while (true)
+            {
+                string endDate = mainView.GetDate("Provide date [yellow]to[/] witch we should take tranzactions to analisis");
+                if (!DateTime.TryParseExact(endDate, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out parsedEndDate))
+                {
+                    mainView.ErrorMessage("Date must be in the format yyyy-MM-dd");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            DateOnly startDay = DateOnly.FromDateTime(parsedStartDate);
+            DateOnly endDay = DateOnly.FromDateTime(parsedEndDate);
+            
+            return new DataRangeDecorator(prognosis,startDay,endDay);
+        }
     }
 }

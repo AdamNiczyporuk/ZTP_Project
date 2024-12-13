@@ -11,6 +11,14 @@ namespace ZTP_Project.Decorator
     {
 
         private DateOnly endDay;
+        public Prognosis(DateOnly endDay)
+        {
+            this.endDay = endDay;
+        }
+        public DateOnly GetEndDay()
+        {
+            return endDay;
+        }
         public double GeneratePrognosis(List<Transaction> transactions)
         {
             if (transactions.Count == 0)

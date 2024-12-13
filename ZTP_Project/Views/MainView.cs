@@ -166,5 +166,26 @@ namespace ZTP_Project.Views
                 .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
                 .AddChoices(new[] { "Set Savings Goal", "Remove Savings Goal", "Back" }));
         }
+        public List<string> GetPrognosisOption()
+        {
+            return  AnsiConsole.Prompt(
+    new MultiSelectionPrompt<string>()
+        .Title("Prognosis [green]options[/]?")
+        .PageSize(10)
+        .NotRequired()
+        .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
+        .InstructionsText(
+            "[grey](Press [blue]<space>[/] to choose option, " +
+            "[green]<enter>[/] to accept)[/]")
+        .AddChoices(new[] {
+            "Define data range", "Plan to save more", "Plan bigger expenses"
+            
+        }));
+        }
+        public string GetDate(string message)
+        {
+            return AnsiConsole.Ask<string>($"{message}(yyyy-MM-dd)?");
+        }
     }
+    
 }
