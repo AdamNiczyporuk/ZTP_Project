@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZTP_Project.Decorator;
+using ZTP_Project.Models;
 using ZTP_Project.Models.Singleton;
 
 namespace ZTP_Project.Views
@@ -17,10 +18,10 @@ namespace ZTP_Project.Views
         {
             this.prognosis = prognosis;
         }
-        public void DisplayPrognosis(DateOnly endDay)
+        public void DisplayPrognosis(DateOnly endDay, List<Transaction> transactions)
         {
-            var homeBudget = HomeBudget.GetInstance();
-            var amount = prognosis.GeneratePrognosis(homeBudget.Transactions);
+           
+            var amount = prognosis.GeneratePrognosis(transactions);
             AnsiConsole.Status()
             .Start("Generating Prognosis...", ctx =>
             {

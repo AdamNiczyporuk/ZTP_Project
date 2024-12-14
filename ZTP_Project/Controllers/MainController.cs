@@ -532,7 +532,7 @@ namespace ZTP_Project.Controllers
             {
                mainView.ClearScreen();
                var prognosisView = new PrognosisView(prognosis);
-               prognosisView.DisplayPrognosis(endDate);
+               prognosisView.DisplayPrognosis(endDate,homeBudget.Transactions);
                mainView.ShowMessage("Prognosis generated successfully press any key to return");
 
             }
